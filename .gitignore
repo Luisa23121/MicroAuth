@@ -1,0 +1,52 @@
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+# Archivos de entorno (IMPORTANTE)
+.env
+.env.local
+*.env
+
+# Si usas base de datos local o archivos sensibles
+application.properties
+application-dev.properties
+
+# Carpetas de IDE (si no están)
+
+.idea/
+*.iml
+
+# Logs y outputs
+logs/
+*.log
+target/  # Esta YA debe estar si es proyecto Maven
