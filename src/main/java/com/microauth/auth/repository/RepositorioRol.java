@@ -1,5 +1,10 @@
 package com.microauth.auth.repository;
 
-public class RepositorioRol {
+import com.microauth.auth.entity.Rol;
+import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
 
+public interface RepositorioRol extends JpaRepository<Rol, Long> {
+    Optional<Rol> findByNombreRol(String nombreRol);
+    boolean existsByNombreRol(String nombreRol);
 }
