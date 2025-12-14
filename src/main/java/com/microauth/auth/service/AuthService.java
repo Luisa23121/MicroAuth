@@ -68,8 +68,8 @@ public class AuthService {
             throw new RuntimeException("El documento ya está registrado");
         }
         
-        // 5. CORRECCIÓN DEL ERROR: Variable final para lambda
-        final String rolFinal = rolSolicitado; // ← ESTA ES LA CLAVE
+        
+        final String rolFinal = rolSolicitado; 
         
         // 6. Buscar o crear el rol
         Rol rolUsuario = repositorioRol.findByNombreRol(rolFinal)
@@ -97,7 +97,7 @@ public class AuthService {
      // 9. Generar token
         UserDetails userDetails = detallesUsuarioServicio.loadUserByUsername(request.getEmail());
 
-        // ⭐⭐ DEBUG: Verificar que carga usuario correcto ⭐⭐
+        
         System.out.println("✅ REGISTRO EXITOSO - Usuario: " + request.getEmail());
 
         return jwtUtil.generarToken(userDetails);

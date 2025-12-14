@@ -1,0 +1,55 @@
+version: '3.8'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: microauth-mysql
+    restart: always
+    env_file: .env  #  Cargar variables del .env
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DOCKER_DB_PASSWORD}  # <-- Usar variable
+      MYSQL_DATABASE: ${DOCKER_DB_NAME}           # <-- Usar variable
+      MYSQL_USER: ${DOCKER_DB_USER}               # <-- Usar variable
+      MYSQL_PASSWORD: ${DOCKER_DB_PASSWORD}       # <-- Usar variable
+    ports:
+      - "3307:3306"  # Puerto 3307 para evitar conflictos
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u${DOCKER_DB_USER}", "-p${DOCKER_DB_PASSWORD}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  app:
+    build: .
+    container_name: microauth-app
+    restart: always
+    depends_on:
+      mysql:
+        condition: service_healthy
+    env_file: .env  # Cargar variables del .env
+    environment:
+      # Spring usará estas variables DEL .env
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE}
+      - DOCKER_DB_HOST=${DOCKER_DB_HOST}
+      - DOCKER_DB_PORT=${DOCKER_DB_PORT}
+      - DOCKER_DB_NAME=${DOCKER_DB_NAME}
+      - DOCKER_DB_USER=${DOCKER_DB_USER}
+      - DOCKER_DB_PASSWORD=${DOCKER_DB_PASSWORD}
+      - DOCKER_SERVER_PORT=${DOCKER_SERVER_PORT}
+      - JWT_SECRET=${JWT_SECRET}
+      # También pasar directo a Spring por si acaso
+      - SPRING_DATASOURCE_URL=jdbc:mysql://${DOCKER_DB_HOST}:${DOCKER_DB_PORT}/${DOCKER_DB_NAME}?useSSL=false
+      - SPRING_DATASOURCE_USERNAME=${DOCKER_DB_USER}
+      - SPRING_DATASOURCE_PASSWORD=${DOCKER_DB_PASSWORD}
+      - SERVER_PORT=${DOCKER_SERVER_PORT}
+    ports:
+      - "${DOCKER_SERVER_PORT}:${DOCKER_SERVER_PORT}"
+    command: 
+      sh -c "
+      echo 'Esperando MySQL...' &&
+      sleep 20 &&
+      echo 'Variables cargadas:' &&
+      echo 'DB_HOST=$${DOCKER_DB_HOST}' &&
+      echo 'DB_NAME=$${DOCKER_DB_NAME}' &&
+      java -jar app.jar
+      "

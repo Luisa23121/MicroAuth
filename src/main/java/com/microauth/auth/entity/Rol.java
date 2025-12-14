@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 @Table(name = "roles") // Esta clase se mapea a la tabla "roles" en la BD
-@Data // Con esto NO necesitas escribir getters/setters (Lombok lo hace)
+@Data 
 public class Rol {
     
     @Id // Esto indica que es la llave primaria

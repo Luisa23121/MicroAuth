@@ -50,3 +50,6 @@ application-dev.properties
 logs/
 *.log
 target/  # Esta YA debe estar si es proyecto Maven
+
+# Docker
+.dockerignore

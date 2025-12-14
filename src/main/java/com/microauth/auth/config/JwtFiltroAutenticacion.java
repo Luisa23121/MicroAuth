@@ -36,17 +36,17 @@ public class JwtFiltroAutenticacion extends OncePerRequestFilter {
             jwt = authHeader.substring(7);
             username = jwtUtil.extraerUsername(jwt);
             
-            // ⭐⭐ DEBUG CRÍTICO ⭐⭐
+            
             System.out.println("🔐 FILTRO JWT - Usuario: " + username);
         }
 
-        // Si tenemos username y no hay autenticación actual
+        
         if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
             
-            // ⭐⭐ CARGAR UserDetails CON ROLES ⭐⭐
+            
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
             
-            // ⭐⭐ DEBUG: Verificar roles cargados ⭐⭐
+            
             System.out.println("   ✅ ROLES cargados: " + userDetails.getAuthorities());
             
             if (jwtUtil.validarToken(jwt, userDetails)) {

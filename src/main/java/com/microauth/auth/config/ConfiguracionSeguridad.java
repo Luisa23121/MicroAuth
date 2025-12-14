@@ -42,7 +42,7 @@ public class ConfiguracionSeguridad {
             )
             .authorizeHttpRequests(auth -> auth
                 // Permite acceso público SOLO a estos endpoints específicos
-            	.requestMatchers("/api/usuarios/**").hasRole("ADMINISTRADOR")  // ← ESTA LÍNEA
+            	.requestMatchers("/api/usuarios/**").hasRole("ADMINISTRADOR")  
             	.requestMatchers("/api/auth/**").permitAll()
                 .requestMatchers("/api/health").permitAll()
                 .requestMatchers("/api/auth/login").permitAll()      // Solo login público

@@ -56,7 +56,7 @@ public class AuthController {
         }
     }
     
-    // ¡AÑADE ESTE NUEVO ENDPOINT!
+    
     @GetMapping("/perfil")
     public ResponseEntity<?> obtenerPerfil(Authentication authentication) {
         try {
@@ -74,7 +74,7 @@ public class AuthController {
             
             Usuario usuario = usuarioOpt.get();
             
-            // Crear respuesta con datos del perfil (sin contraseña)
+            
             Map<String, Object> perfil = new HashMap<>();
             perfil.put("id", usuario.getId());
             perfil.put("documento", usuario.getDocumento());
@@ -86,7 +86,7 @@ public class AuthController {
             perfil.put("cuentaBloqueada", usuario.getCuentaBloqueada());
             perfil.put("intentosFallidos", usuario.getIntentosFallidos());
             
-            // Si tienes rol, puedes incluirlo
+            
             if (usuario.getRol() != null && usuario.getRol().getNombreRol() != null) {
                 perfil.put("rol", usuario.getRol().getNombreRol());
             } else {
@@ -102,7 +102,7 @@ public class AuthController {
         }
     }
     
-    // También puedes añadir este endpoint de prueba
+    
     @GetMapping("/test-protegido")
     public ResponseEntity<?> testProtegido(Authentication authentication) {
         if (authentication == null) {
